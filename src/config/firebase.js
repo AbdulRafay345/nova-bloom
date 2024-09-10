@@ -5,14 +5,14 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDj_MC7TXuJMsbmKvc0UueC9HTzfcWrfjg",
-    authDomain: "bakery-manager-12.firebaseapp.com",
-    projectId: "bakery-manager-12",
-    storageBucket: "bakery-manager-12.appspot.com",
-    messagingSenderId: "148376328541",
-    appId: "1:148376328541:web:bba322d26f13bb05e6b0b4",
-    measurementId: "G-5NP6BKRYRD"
-};
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,  // Ensure this is defined
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+};  
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
