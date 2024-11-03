@@ -40,6 +40,9 @@ export default function Header({ searchQuery, onSearchChange }) {
                         <li className="nav-item">
                             <Link className="nav-link text-white" aria-current="page" to='/recent'>Recent Orders</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link text-white" aria-current="page" to='/favorites'>Favorites</Link>
+                        </li>
                     </ul>
                     <div className="d-flex ms-auto align-items-center">
                         <form className="d-flex" role="search">

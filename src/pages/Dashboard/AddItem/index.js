@@ -85,7 +85,7 @@ export default function AddItem() {
                                 onChange={handleFileChange}
                                 showUploadList={{ showPreviewIcon: false }}
                             >
-                                <Button icon={<UploadOutlined />}>Click to Upload Image</Button>
+                                <Button icon={<UploadOutlined />} >Click to Upload Image</Button>
                             </Upload>
                         </Col>
                         <Col span={24}>

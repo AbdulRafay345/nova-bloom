@@ -90,7 +90,7 @@ export default function Register() {
               <Input.Password placeholder='Confirm Password' name='confirmPassword' onChange={handleChange} />
             </Col>
             <Col span={24}>
-              <Button type='primary' block htmlType='submit' loading={isLoading} onClick={handleSubmit}>Register</Button>
+              <Button type='primary' block htmlType='submit' style={{backgroundColor:"#a97e4d"}} loading={isLoading} onClick={handleSubmit}>Register</Button>
             </Col>
             <Col span={24}>
               <p className='small text-center'>Already have an account? <Link to='/auth' style={{ color: "black" }}>Login</Link></p>

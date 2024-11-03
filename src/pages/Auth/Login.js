@@ -44,11 +44,11 @@ export default function Login() {
               </Link>
             </Col>
             <Col span={24}>
-              <Button type="primary" block htmlType="submit" loading={isProcessing} onClick={handleSubmit} > Login</Button>
+              <Button type="primary" block htmlType="submit" style={{backgroundColor:"#a97e4d"}} loading={isProcessing} onClick={handleSubmit} > Login</Button>
             </Col>
             <Col span={24}>
               <p className="small text-center">
-                Don't have an account?<Link to="/auth/register" style={{ color: 'black' }}> Register</Link>
+                Don't have an account? <Link to="/auth/register" style={{ color: 'black' }}>Register</Link>
               </p>
             </Col>
           </Row>

@@ -60,7 +60,7 @@ export default function ForogtPassword() {
               <Input type='email' placeholder='Enter Your Email' name='email' onChange={handleChange} />
             </Col>
             <Col span={24}>
-              <Button type='primary' block htmlType='submit' loading={isLoading} onClick={handleSubmit}>Submit</Button>
+              <Button type='primary' block htmlType='submit' style={{backgroundColor:"#a97e4d"}} loading={isLoading} onClick={handleSubmit}>Submit</Button>
             </Col>
             <Col span={24}>
               <p className='small text-center'>Don't have an account? <Link to='/auth/register' style={{ color: "black" }}>Register</Link></p>

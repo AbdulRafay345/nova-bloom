@@ -61,6 +61,7 @@ export default function Order() {
         total: grandTotal,
         customer: user.uid,
         address: user.address,
+        status:"Pending",
         createdAt: new Date().toISOString(),
       };
       await setDoc(orderDocRef, orderData);

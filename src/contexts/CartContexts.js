@@ -24,7 +24,15 @@ export default function CartProvider({ children }) {
     };
 
     const updateCartItem = (key, quantity) => {
-        setCart(s =>s.map(item =>item.key === key ? { ...item, quantity } : item ));
+        setCart(s => {
+            if (quantity <= 0) {
+                // Remove item from cart if quantity is 0 or less
+                return s.filter(item => item.key !== key);
+            } else {
+                // Update item quantity
+                return s.map(item => item.key === key ? { ...item, quantity } : item);
+            }
+        });
     };
 
     return (

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HomeOutlined, PlusOutlined, LogoutOutlined, MenuOutlined, RetweetOutlined, FileDoneOutlined, UserOutlined } from '@ant-design/icons';
+import { HomeOutlined, PlusOutlined, LogoutOutlined, MenuOutlined, RetweetOutlined,FileOutlined, FileDoneOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Layout, Menu, Modal, Drawer, Input } from 'antd';
 import Routes from "./Routes";
 import { Link } from 'react-router-dom';
@@ -33,12 +33,27 @@ const Dashboard = () => {
         setDrawerVisible(false);
     };
 
+    // Define the main items with a submenu for "Item Category"
     const items = [
         getItem(<Link to="/dashboard" style={{ textDecoration: "none" }} onClick={closeDrawer}>Home</Link>, '1', <HomeOutlined />),
         getItem(<Link to="/dashboard/recent-orders" style={{ textDecoration: "none" }} onClick={closeDrawer}>Recent Orders</Link>, '2', <FileDoneOutlined />),
         getItem(<Link to="/dashboard/users" style={{ textDecoration: "none" }} onClick={closeDrawer}>Users</Link>, '3', <UserOutlined />),
-        getItem(<Link to="/dashboard/update-item" style={{ textDecoration: "none" }} onClick={closeDrawer}>Update Items</Link>, '4', <RetweetOutlined />),
-        getItem(<Link to="/dashboard/add-item" style={{ textDecoration: "none" }} onClick={closeDrawer}>Add Item</Link>, '5', <PlusOutlined />),
+        getItem('Items', 'itemCategory',<FileOutlined/>, null, [
+            getItem(
+                <Link to="/dashboard/update-item" style={{ textDecoration: 'none' }} onClick={closeDrawer}>
+                    Update Items
+                </Link>,
+                '4',
+                <RetweetOutlined />
+            ),
+            getItem(
+                <Link to="/dashboard/add-item" style={{ textDecoration: 'none' }} onClick={closeDrawer}>
+                    Add Item
+                </Link>,
+                '5',
+                <PlusOutlined />
+            ),
+        ]),
         getItem(<span onClick={() => { showModal(); closeDrawer(); }}>Logout</span>, '6', <LogoutOutlined onClick={() => { showModal(); closeDrawer(); }} />),
     ];
 
@@ -72,7 +87,7 @@ const Dashboard = () => {
                     <Content>
                         <Routes searchQuery={searchQuery} />
                     </Content>
-                    <Footer style={{ textAlign: 'center', background:"#001529",color:"#fff",padding:"0" }} >
+                    <Footer style={{ textAlign: 'center', background: "#001529", color: "#fff", padding: "0" }}>
                         © {new Date().getFullYear()}. All Rights Reserved.
                     </Footer>
                 </Layout>

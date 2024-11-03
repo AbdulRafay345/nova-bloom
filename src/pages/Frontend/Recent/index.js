@@ -16,16 +16,24 @@ export default function Recent() {
     if (state.isAuthenticated) {
       setIsLoading(true);
       try {
-        const q = query(collection(firestore, "orderPlaced"), where("customer", "==", user.uid), orderBy("createdAt", "desc"));
+        const q = query(
+          collection(firestore, "orderPlaced"),
+          where("customer", "==", user.uid),
+          orderBy("createdAt", "desc")
+        );
         const querySnapshot = await getDocs(q);
         const items = querySnapshot.docs.map(doc => {
-          const { items, total, createdAt } = doc.data();
+          const { items, total, createdAt, status } = doc.data();
           return {
-            key: doc.id, items, total, createdAt,
+            key: doc.id,
+            items,
+            total,
+            createdAt,
+            status,
             itemsDetails: items.map(item => ({
               name: item.name,
-              quantity: item.quantity
-            }))
+              quantity: item.quantity,
+            })),
           };
         });
         setData(items);
@@ -45,7 +53,8 @@ export default function Recent() {
   const columns = [
     { title: 'Order Date', dataIndex: 'createdAt', key: 'createdAt', render: (text) => new Date(text).toLocaleString() },
     {
-      title: 'Items', key: 'itemsDetails',
+      title: 'Items',
+      key: 'itemsDetails',
       render: (_, record) => (
         <ul>
           {record.itemsDetails.map((item, index) => (
@@ -56,22 +65,37 @@ export default function Recent() {
         </ul>
       ),
     },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (text) => text !== undefined ? `${text}` : null,
+    },
     { title: 'Total', dataIndex: 'total', key: 'total', render: (text) => `Rs. ${text}` },
   ];
 
   return (
     <main>
-      {state.isAuthenticated ?
+      {state.isAuthenticated ? (
         <>
           <div className='d-flex flex-column justify-content-center align-items-center px-1 py-3'>
             <Title className='text-center p-4'>Your Recent Orders</Title>
             <Card style={{ width: '100%', maxWidth: '1200px', margin: '0 auto', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', overflowX: 'auto' }}>
-              <Table dataSource={data} columns={columns} pagination={false} rowKey="key" loading={isLoading} rowClassName={() => "custom-row"} scroll={{ x: true }} />
+              <Table
+                dataSource={data}
+                columns={columns}
+                pagination={false}
+                rowKey="key"
+                loading={isLoading}
+                rowClassName={() => "custom-row"}
+                scroll={{ x: true }}
+              />
             </Card>
           </div>
         </>
-        : <h3 className='text-center pt-4'>Please Login to check recent orders</h3>
-      }
+      ) : (
+        <h3 className='text-center pt-4'>Please Login to check recent orders</h3>
+      )}
     </main>
   );
 }

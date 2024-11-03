@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Col, Image, Row, Typography, Spin } from 'antd';
-import { collection, deleteDoc, doc, getDocs, setDoc, query, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, query, where, setDoc } from 'firebase/firestore';
 import { firestore } from '../../../config/firebase';
 import { useCart } from '../../../contexts/CartContexts';
 import { Link } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 const { toastify } = window;
 const { Paragraph } = Typography;
 
-export default function Menu({ searchQuery = '' }) {
+export default function Favorites({ searchQuery = '' }) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const { addToCart, updateCartItem } = useCart();
@@ -20,9 +20,12 @@ export default function Menu({ searchQuery = '' }) {
     const [favorites, setFavorites] = useState(new Set());
 
     const getData = async () => {
+        if (!state.isAuthenticated || !user?.uid) return; // Avoid fetching if not authenticated
         try {
-            const querySnapshot = await getDocs(collection(firestore, "menuItems"));
-            const items = querySnapshot.docs.map(doc => ({ key: doc.id, ...doc.data() }));
+            const querySnapshot = await getDocs(collection(firestore, "favorites"));
+            const items = querySnapshot.docs
+                .map(doc => ({ key: doc.id, ...doc.data() }))
+                .filter(item => item.user_id === user.uid); // Filter by user ID
             setData(items);
         } catch (error) {
             console.error("Error fetching menu items: ", error);
@@ -40,7 +43,7 @@ export default function Menu({ searchQuery = '' }) {
                     where("user_id", "==", user.uid)
                 );
                 const querySnapshot = await getDocs(favoritesQuery);
-                const favoriteItems = querySnapshot.docs.map(doc => doc.data().item_id);
+                const favoriteItems = querySnapshot.docs.map(doc => doc.id);
                 const favoritesSet = new Set(favoriteItems);
                 setFavorites(favoritesSet);
             } catch (error) {
@@ -93,8 +96,8 @@ export default function Menu({ searchQuery = '' }) {
             toastify("Item removed from favorites", "success");
 
             try {
-                const favoriteDocRef = doc(firestore, "favorites", `${user.uid}_${item.key}`);
-                await deleteDoc(favoriteDocRef);
+                const fvrtDocRef = doc(firestore, "favorites", item.key);
+                await deleteDoc(fvrtDocRef);
             } catch (error) {
                 console.error("Error removing favorite: ", error);
                 toastify("Something went wrong while removing from favorites", "error");
@@ -104,15 +107,8 @@ export default function Menu({ searchQuery = '' }) {
             toastify("Item added to favorites", "success");
 
             try {
-                const favoriteDocRef = doc(firestore, "favorites", `${user.uid}_${item.key}`);
-                await setDoc(favoriteDocRef, {
-                    item_id: item.key,
-                    user_id: user.uid,
-                    name: item.name,
-                    price: item.price,
-                    description: item.description,
-                    imageUrl: item.imageUrl
-                });
+                const fvrtDocRef = doc(firestore, "favorites", item.key);
+                await setDoc(fvrtDocRef, { name: item.name, price: item.price, description: item.description, imageUrl: item.imageUrl, user_id: user.uid }, { merge: true });
             } catch (error) {
                 console.error("Error adding favorite: ", error);
                 toastify("Something went wrong while adding to favorites", "error");
