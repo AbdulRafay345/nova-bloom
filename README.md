@@ -1,70 +1,132 @@
-# Getting Started with Create React App
+# Nova Bloom
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Nova Bloom is a React + Firebase food ordering web app with two primary experiences:
 
-## Available Scripts
+- **Customer frontend** for browsing menu items, adding to cart, managing favorites, and placing orders.
+- **Admin dashboard** for managing menu items, viewing users, and tracking/updating order statuses.
 
-In the project directory, you can run:
+The project is built with Create React App, React Router v6, Firebase (Auth, Firestore, Storage), Ant Design, Bootstrap, and Sass.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Customer Experience
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- User registration, login, and password reset
+- Profile view and profile updates (name/address)
+- Menu browsing with search by name/category
+- Add/remove quantity from cart
+- Favorites management
+- Place order with delivery details from profile
+- View recent orders and order statuses
 
-### `npm test`
+### Admin Experience
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Admin-only protected dashboard routes
+- View all users
+- Add menu items (including image upload)
+- Update and delete menu items
+- View all recent orders
+- Update order status (`Preparing`, `Ready to Deliver`, `Delivered`)
 
-### `npm run build`
+## Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Frontend:** React 18, React Router DOM 6
+- **UI:** Ant Design, Bootstrap 5, Sass
+- **Backend Services:** Firebase Authentication, Firestore, Firebase Storage, Firebase Analytics
+- **Build Tooling:** Create React App (`react-scripts`)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Project Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```text
+src/
+  components/        # Shared UI and route guards
+  config/            # Firebase and global helpers
+  contexts/          # Auth and cart state management
+  pages/
+    Auth/            # Login, register, forgot password
+    Frontend/        # Customer-facing pages
+    Dashboard/       # Admin-facing pages
+```
 
-### `npm run eject`
+## Environment Variables
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Create a `.env` file in the project root based on `.env.sample`:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```env
+REACT_APP_FIREBASE_API_KEY=""
+REACT_APP_FIREBASE_AUTH_DOMAIN=""
+REACT_APP_FIREBASE_PROJECT_ID=""
+REACT_APP_FIREBASE_STORAGE_BUCKET=""
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=""
+REACT_APP_FIREBASE_APP_ID=""
+REACT_APP_FIREBASE_MEASUREMENT_ID=""
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Firebase Collections Used
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- `users`: user profile and role data (`customer` / `admin`)
+- `menuItems`: all menu items shown in frontend and dashboard
+- `favorites`: customer favorite items
+- `orderPlaced`: customer orders and status tracking
 
-## Learn More
+## Getting Started
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Prerequisites
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Node.js 18+ (recommended)
+- npm
+- A Firebase project with Auth, Firestore, and Storage enabled
 
-### Code Splitting
+### Installation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+npm install
+```
 
-### Analyzing the Bundle Size
+### Run in Development
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+npm start
+```
 
-### Making a Progressive Web App
+App runs at [http://localhost:3000](http://localhost:3000).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Production Build
 
-### Advanced Configuration
+```bash
+npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Run Tests
 
-### Deployment
+```bash
+npm test
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Route Overview
 
-### `npm run build` fails to minify
+- `/` - Customer frontend
+- `/menu` - Menu
+- `/order` - Cart / order placement
+- `/recent` - Customer recent orders
+- `/favorites` - Favorite items
+- `/profile` - Customer profile
+- `/auth/*` - Authentication pages
+- `/dashboard/*` - Admin-only dashboard
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Deployment
+
+This project includes Firebase Hosting configuration in `firebase.json` with SPA rewrites.
+
+Typical deployment flow:
+
+1. Build the app (`npm run build`)
+2. Deploy using Firebase CLI (`firebase deploy`)
+
+## Notes
+
+- Role-based access is enforced in routing through `PrivateRoutes`.
+- Cart state is maintained in React context.
+- Toast-style notifications are powered by Ant Design message API via global helpers.
+
+---
