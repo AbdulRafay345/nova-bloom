@@ -53,6 +53,7 @@ export default function Menu({ searchQuery = '' }) {
     useEffect(() => {
         getData();
         getFavorites();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.isAuthenticated, user?.uid]);
 
     const handleAddToCart = (item) => {

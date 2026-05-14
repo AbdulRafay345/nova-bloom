@@ -48,6 +48,7 @@ export default function Recent() {
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const columns = [

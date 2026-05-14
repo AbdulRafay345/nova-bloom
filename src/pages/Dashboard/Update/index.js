@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Card, Col, Form, Image, Input, Modal, Row, Space, Table } from 'antd';
+import { Button, Card, Col, Form, Input, Modal, Row, Space, Table } from 'antd';
 import { collection, deleteDoc, doc, getDocs, serverTimestamp, setDoc } from 'firebase/firestore';
 import { firestore } from '../../../config/firebase';
 
